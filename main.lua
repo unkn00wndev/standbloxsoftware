@@ -1,4 +1,5 @@
-
+--!version 0.12c
+local version = "1.2c beta"
 local camera = workspace.CurrentCamera
 function changeFov(fov)
     camera.FieldOfView = fov
@@ -29,7 +30,7 @@ spawn(function ()
 end)
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
-    Name = "RAGE CLIENT | #FUCKSTANDBLOX 1.1c beta",
+    Name = string.format("RAGE CLIENT | #FUCKSTANDBLOX %s", version),
     LoadingTitle = "#FUCKSTANDBLOX",
     LoadingSubtitle = "i hate standblox ;)",
     ConfigurationSaving = {
