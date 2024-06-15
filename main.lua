@@ -6,7 +6,7 @@ end
 local focus = nil
 local VelocityBuff = false
 local datafolder = Instance.new("Folder", workspace)
-datafolder.Name = "sourceFolder-"..math.randomseed(0, 99999999999999)
+datafolder.Name = "sourceFolder-"..math.random(1, 219759)
 local chamsFolder = Instance.new("Folder", datafolder)
 chamsFolder.Name = "Chams"
 local chamsEnabled = false
