@@ -1,4 +1,4 @@
-
+--!RAWRWARAWRAWRAWEEEE
 local camera = workspace.CurrentCamera
 function changeFov(fov)
     camera.FieldOfView = fov
