@@ -1,36 +1,67 @@
---!version 0.12c
-local version = "1.2c beta"
+
 local camera = workspace.CurrentCamera
 function changeFov(fov)
     camera.FieldOfView = fov
 end
 local focus = nil
 local VelocityBuff = false
+local datafolder = Instance.new("Folder", workspace)
+datafolder.Name = "sourceFolder-"..math.randomseed(0, 99999999999999)
+local chamsFolder = Instance.new("Folder", datafolder)
+chamsFolder.Name = "Chams"
+local chamsEnabled = false
 spawn(function ()
     while task.wait() do
         local players = game.Players:GetPlayers()
         for i,v in pairs(players) do
-            if v ~= game.Players.LocalPlayer and focus ~= nil then
+            if v ~= game.Players.LocalPlayer then
+                if focus ~= nil then
                 pcall(function ()
                     v.Character:SetPrimaryPartCFrame(focus)
                 end)
+            end
+            if chamsEnabled then
+                pcall(function (...)
+                    local function add()
+                        local chms = Instance.new("Highlight", chamsFolder)
+                        chms.Name = v.Name
+                        chms.Adornee = v.Character
+                        chms:SetAttribute("Team", v.team.Value)
+                    end
+                    local function reset()
+                        local chms = chamsFolder:FindFirstChild(v.Name)
+                        chms:Destroy()
+                    end
+                    if not chamsFolder:FindFirstChild(v.Name) then
+                        add()
+                    end
+                    if v.team.Value == game.Players.LocalPlayer.team.Value then
+                        reset()
+                    end
+
+                end)
+
+            end
             elseif v == game.Players.LocalPlayer then
                 if VelocityBuff then
                     pcall(function()
-                        v.Character.HumanoidRootPart.movementVelocity.P = 450;
+                        v.Character.HumanoidRootPart.movementVelocity.MaxForce = Vector3.new(15000, 0, 15000);
                     end)
                 elseif not VelocityBuff then
                     pcall(function()
-                        v.Character.HumanoidRootPart.movementVelocity.P = 150;
+                        v.Character.HumanoidRootPart.movementVelocity.MaxForce = Vector3.new(3000, 0, 3000)
                     end)
                 end
             end
         end
     end
 end)
+function doChams(val)
+    chamsEnabled = val
+end
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
-    Name = string.format("RAGE CLIENT | #FUCKSTANDBLOX %s", version),
+    Name = "RAGE CLIENT | #FUCKSTANDBLOX 1.1c beta",
     LoadingTitle = "#FUCKSTANDBLOX",
     LoadingSubtitle = "i hate standblox ;)",
     ConfigurationSaving = {
@@ -114,3 +145,11 @@ local Window = Rayfield:CreateWindow({
         ggg()
     end,
 })
+local Chams = Visual:CreateToggle({
+    Name = "Enemy Chams",
+    CurrentValue = false,
+    Flag = "chams", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Value)
+        chamsEnabled = Value
+    end,
+ })
